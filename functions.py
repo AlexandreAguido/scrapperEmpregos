@@ -14,11 +14,3 @@ def get_random_name(size):
     """string aleatoria de tamanho <size>"""
     return ''.join(sample(alfa, size))
 
-def remove_html_tags(vaga):
-    """ remove tags html junto com seu conteudo"""
-    p1 = re.compile(r'< *br[^\w/]*>')
-    p2 = re.compile(r'<[^>]+>|\s{2,}')
-    for key in vaga.keys():
-        vaga[key] = p1.sub('\n', str(vaga[key]))
-        vaga[key] = p2.sub('', str(vaga[key]))
-    return vaga

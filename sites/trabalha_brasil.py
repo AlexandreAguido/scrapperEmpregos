@@ -35,10 +35,12 @@ def complete_description(ids, vagas):
         url = vagas[i]['url']
         resp = requests.get(url, headers=get_headers()).text
         soup = BeautifulSoup(resp, 'html.parser')
-        soup = soup.find('div', {'class' : re.compile('.*job-text')})
-        descricao = soup.find_all('h6', {'class' : 'job-plain-text'})[-1]
+        descricao = soup.find_all(['h6', 'p'], {'class' : 'job-plain-text'})[-1]      
         with Lock():
-            vagas[i]['descricao'] = str(descricao.string).replace('\r\n', '<br>')
+            try:vagas[i]['descricao'] = str(descricao.string).replace('\r\n', '<br>')
+            except:
+                print(url, descricao, sep="\n"*5)
+                exit()
         ids.task_done()
 
 

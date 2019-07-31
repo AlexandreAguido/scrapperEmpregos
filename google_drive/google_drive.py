@@ -1,28 +1,10 @@
-from googleapiclient.discovery import build
-from apiclient.http import MediaFileUpload
-from httplib2 import Http
-from oauth2client import file, client, tools
 from apiclient.http import MediaFileUpload
 from os.path import dirname
-
-SCOPES = ['https://www.googleapis.com/auth/drive.appfolder']
+from googleapiclient.discovery import build
 
 class Drive:
     def __init__(self):
-        self.service = self._create_service()
-        
-
-    def _create_service(self):
-        """
-        Gerencia autenticacao e cria objeto para 
-        interagir com o drive
-        """
-        store = file.Storage(dirname(__file__) + '/token.json')
-        creds = store.get()
-        if not creds or creds.invalid:
-            flow = client.flow_from_clientsecrets(dirname(__file__) + '/credentials.json', SCOPES)
-            creds = tools.run_flow(flow, store)
-        return build('drive', 'v3', http=creds.authorize(Http()))
+        self.service = build('drive', 'v3')      
 
 
     def list_files(self):
